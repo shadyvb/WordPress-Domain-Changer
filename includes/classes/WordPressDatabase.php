@@ -1,5 +1,6 @@
 <?php
-class WordPressDatabase extends mysqli {
+class WordPressDatabase extends mysqli
+{
 
   private $table_prefix = "wp_";
 

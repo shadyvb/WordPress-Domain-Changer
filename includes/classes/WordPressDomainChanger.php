@@ -1,5 +1,6 @@
 <?php
-class WordPressDomainChanger {
+class WordPressDomainChanger
+{
 
     /**
      * Actions that occurred during request.

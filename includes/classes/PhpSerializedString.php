@@ -1,5 +1,6 @@
 <?php
-class PhpSerializedString {
+class PhpSerializedString
+{
 
     /**
      * Original string that was passed into the constructor.
