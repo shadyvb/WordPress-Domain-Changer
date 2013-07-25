@@ -35,17 +35,39 @@
  * @license http://dan.doezema.com/licenses/new-bsd New BSD License
  */
 
-/* == Requires ======================================================= */
+/* == Execute Bootstrap ======================================================= */
 
-$dir = dirname(__FILE__);
-
-require_once $dir . '/config.php';
-
-require_once $dir . '/classes/PhpSerializedString.php';
-require_once $dir . '/classes/WordPressConfigFile.php';
-require_once $dir . '/classes/WordPressDomainChanger.php';
+require_once dirname(__FILE__) . '/includes/bootstrap.php';
 
 /* == START PROCEDURAL CODE ============================================== */
+
+class IndexController extends Controller {
+
+    public function root() {
+
+    }
+
+    public function sign_in() {
+
+    }
+
+    public function sign_in_form_handler() {
+
+    }
+
+    public function sign_in() {
+
+    }
+
+    public function sign_in_form_handler() {
+
+    }
+
+    public function form_handler() {
+
+        $this->redirect(WPDC_URL);
+    }
+}
 
 $WPDC = new WordPressDomainChanger();
 
@@ -163,115 +185,3 @@ if($WPDC->isAuthenticatedSession()) {
     }
 }
 ?>
-<html>
-    <head>
-        <title>WordPress Domain Changer by Daniel Doezema </title>
-        <script type="text/javascript" language="Javascript">
-            window.onload = function() {
-                if(document.getElementById('seconds')) {
-                    window.setInterval(function() {
-                        var seconds_elem = document.getElementById('seconds');
-                        var bar_elem     = document.getElementById('bar');
-                        var seconds      = parseInt(seconds_elem.innerHTML);
-                        var percentage   = Math.round(seconds / <?php echo DDWPDC_COOKIE_LIFETIME + 5; ?> * 100);
-                        var bar_color    = '#00FF19';
-                        if(percentage < 25) {
-                            bar_color = 'red';
-                        } else if (percentage < 75) {
-                            bar_color = 'yellow';
-                        }
-                        if(seconds <= 0) window.location.reload();
-                        bar_elem.style.width = percentage + '%';
-                        bar_elem.style.backgroundColor = bar_color;
-                        seconds_elem.innerHTML = --seconds;
-                    }, 1000);
-                }
-            }
-        </script>
-        <style type="text/css">
-            body {font:14px Tahoma, Arial;}
-            div.clear {clear:both;}
-            h1 {padding:0; margin:0;}
-            h2, h3 {padding:0; margin:0 0 15px 0;}
-            form { display:block; padding:10px; margin-top:15px; background-color:#FCFCFC; border:1px solid gray;}
-            form label {font-weight:bold;}
-            form div {margin:0 15px 15px 0;}
-            form div input {width:80%;}
-            #left {width:35%;float:left;}
-            #right {margin-top:5px;float:right; width:63%; text-align:left;}
-            div.log {padding:5px 10px; margin:10px 0;}
-            div.error { background-color:#FFF8F8; border:1px solid red;}
-            div.notice { background-color:#FFFEF2; border:1px solid #FDC200;}
-            div.action { background-color:#F5FFF6; border:1px solid #01BE14;}
-            #timeout {padding:5px 10px 10px 10px; background-color:black; color:white; font-weight:bold;position:absolute;top:0;right:10px;}
-            #bar {height:10px;margin:5px 0 0 0;}
-        </style>
-    </head>
-    <body>
-        <h1>WordPress Domain Changer <iframe src="http://ghbtns.com/github-btn.html?user=veloper&repo=WordPress-Domain-Changer&type=watch&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe></h1>
-        <span>By <a href="http://dan.doezema.com" target="_blank">Daniel Doezema</a></span>
-        <div class="body">
-            <?php if($WPDC->isAuthenticatedSession()): ?>
-                <div id="timeout">
-                    <div>You have <span id="seconds"><?php echo ((int) $_COOKIE[DDWPDC_COOKIE_NAME_EXPIRE] + 5) - time(); ?></span> Seconds left in this session.</div>
-                    <div id="bar"></div>
-                </div>
-                <div class="clear"></div>
-                <div id="left">
-                    <form method="post" action="<?php echo basename(__FILE__); ?>">
-                        <input type="hidden" name="is_change_request" value="1" />
-                        <h3>Database Connection Settings</h3>
-                        <blockquote>
-                            <label for="host">Host</label>
-                            <div><input type="text" id="host" name="host" value="<?php echo $WPDC->getConfig()->getConstant('DB_HOST'); ?>" /></div>
-
-                            <label for="username">User</label>
-                            <div><input type="text" id="username" name="username" value="<?php echo $WPDC->getConfig()->getConstant('DB_USER'); ?>" /></div>
-
-                            <label for="password">Password</label>
-                            <div><input type="text" id="password" name="password" value="<?php echo $WPDC->getConfig()->getConstant('DB_PASSWORD'); ?>" /></div>
-
-                            <label for="database">Database Name</label>
-                            <div><input type="text" id="database" name="database" value="<?php echo $WPDC->getConfig()->getConstant('DB_NAME'); ?>" /></div>
-
-                            <label for="prefix">Table Prefix</label>
-                            <div><input type="text" id="prefix" name="prefix" value="<?php echo $WPDC->getConfig()->getTablePrefix(); ?>" /></div>
-                        </blockquote>
-
-                        <label for="old_domain">Old Domain</label>
-                        <div>http://<input type="text" id="old_domain" name="old_domain" value="<?php echo $WPDC->getOldDomain(); ?>" /></div>
-
-                        <label for="new_domain">New Domain</label>
-                        <div>http://<input type="text" id="new_domain" name="new_domain" value="<?php echo $WPDC->getNewDomain(); ?>" /></div>
-
-                        <input type="submit" id="submit_button" name="submit_button" value="Change Domain!" />
-                    </form>
-                </div>
-                <div id="right">
-                    <?php if(count($WPDC->errors) > 0): foreach($WPDC->errors as $error): ?>
-                        <div class="log error"><strong>Error:</strong> <?php echo $error; ?></div>
-                    <?php endforeach; endif; ?>
-
-                    <?php if(count($WPDC->notices) > 0): foreach($WPDC->notices as $notice): ?>
-                        <div class="log notice"><strong>Notice:</strong> <?php echo $notice; ?></div>
-                    <?php endforeach; endif; ?>
-
-                    <?php if(count($WPDC->actions) > 0): foreach($WPDC->actions as $action): ?>
-                        <div class="log action"><strong>Action: </strong><?php echo $action; ?></div>
-                    <?php endforeach; endif; ?>
-                </div>
-            <?php else: ?>
-                <?php if(isset($_POST['auth_password'])): ?>
-                    <div class="log error"><strong>Error:</strong> Incorrect password, please try again.</div>
-                <?php endif; ?>
-                <form id="login" name="login" method="post" action="<?php echo basename(__FILE__); ?>">
-                    <h3>Authenticate</h3>
-                    <label for="auth_password">Password</label>
-                    <input type="password" id="auth_password" name="auth_password" value="" />
-                    <input type="submit" id="submit_button" name="submit_button" value="Submit!" />
-                </form>
-            <?php endif; ?>
-        </div>
-    </body>
-</html>
