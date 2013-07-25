@@ -1,0 +1,38 @@
+body { font: 14px Tahoma, Arial; }
+div.clear { clear: both; }
+h1 { margin: 0; padding: 0; }
+h2, h3 { margin: 0 0 15px 0; padding: 0; }
+form {
+      background-color: #FCFCFC;
+      border: 1px solid gray;
+      display: block;
+      margin-top: 15px;
+      padding: 10px;
+}
+form label { font-weight: bold; }
+form div { margin: 0 15px 15px 0; }
+form div input { width: 80%; }
+
+#left { float: left; width: 35%; }
+#right {
+      float: right;
+      margin-top: 5px;
+      text-align: left;
+      width: 63%;
+}
+
+div.log { margin: 10px 0; padding: 5px 10px; }
+div.error { background-color: #FFF8F8; border: 1px solid red; }
+div.notice { background-color: #FFFEF2; border: 1px solid #FDC200; }
+div.action { background-color: #F5FFF6; border: 1px solid #01BE14; }
+
+#timeout {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      padding: 5px 10px 10px 10px;
+      position: absolute;
+      right: 10px;
+      top: 0;
+}
+#bar { height: 10px; margin: 5px 0 0 0; }
